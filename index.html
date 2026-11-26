@@ -1732,11 +1732,13 @@
       );
       $$(".rv").forEach((e) => io.observe(e));
 
-      /* music: starts only after a tap; ambient drone unless musicUrl set */
+      /* Attempt autoplay; browsers may require a user interaction for audio. */
       let ac,
         master,
         aud,
         yt,
+        musicStart,
+        resumeMusic,
         playing = false;
       function loadYT() {
         return new Promise((res) => {
@@ -1768,7 +1770,14 @@
                 loop: 1,
                 playlist: CONFIG.youtubeId,
               },
-              events: { onReady: () => r(p), onError: () => r(null) },
+              events: {
+                onReady: () => r(p),
+                onError: () => r(null),
+                onStateChange: (e) => {
+                  if (e.data === YT.PlayerState.PLAYING) setM(true);
+                  if (e.data === YT.PlayerState.PAUSED) setM(false);
+                },
+              },
             });
             setTimeout(() => r(null), 8000);
           });
@@ -1780,7 +1789,7 @@
           yt.playVideo();
           return true;
         }
-        playing ? yt.pauseVideo() : yt.playVideo();
+        yt.playVideo();
         return true;
       }
       function startAmbient() {
@@ -1812,23 +1821,52 @@
         b.textContent = on ? "❚❚" : "♪";
         $("#vol").classList.toggle("s", on);
         ss.set("mus", on ? "1" : "0");
-      }
-      $("#mus").onclick = async () => {
-        try {
-          if (await ytPlay()) {
-          } else if (CONFIG.musicUrl) {
-            aud =
-              aud || Object.assign(new Audio(CONFIG.musicUrl), { loop: true });
-            aud.volume = +$("#vol").value;
-            playing ? aud.pause() : await aud.play();
-          } else {
-            if (!ac) startAmbient();
-            else playing ? await ac.suspend() : await ac.resume();
-          }
-          setM(!playing);
-        } catch (e) {
-          setM(false);
+        if (on && resumeMusic) {
+          document.removeEventListener("pointerdown", resumeMusic);
+          document.removeEventListener("keydown", resumeMusic);
+          resumeMusic = null;
         }
+      }
+      function startMusic() {
+        if (playing) return Promise.resolve();
+        if (musicStart) return musicStart;
+        musicStart = (async () => {
+          try {
+            if (await ytPlay()) {
+              return;
+            } else if (CONFIG.musicUrl) {
+              aud =
+                aud || Object.assign(new Audio(CONFIG.musicUrl), { loop: true });
+              aud.volume = +$("#vol").value;
+              await aud.play();
+            } else {
+              if (!ac) startAmbient();
+              else await ac.resume();
+            }
+            setM(true);
+          } catch (e) {
+            setM(false);
+          } finally {
+            musicStart = null;
+          }
+        })();
+        return musicStart;
+      }
+      startMusic();
+      resumeMusic = (e) => {
+        if (!playing && !e.target.closest?.("#mus")) startMusic();
+      };
+      document.addEventListener("pointerdown", resumeMusic);
+      document.addEventListener("keydown", resumeMusic);
+      $("#mus").onclick = async () => {
+        if (!playing) {
+          await startMusic();
+          return;
+        }
+        if (yt) yt.pauseVideo();
+        else if (aud) aud.pause();
+        else if (ac) await ac.suspend();
+        setM(false);
       };
       $("#vol").oninput = (e) => {
         if (yt) yt.setVolume(+e.target.value * 100);
