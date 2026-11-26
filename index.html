@@ -1194,7 +1194,7 @@
           <p class="tag">Two Hearts, One Beautiful Journey</p>
           <svg class="orn" aria-hidden="true"><use href="#div" /></svg>
           <p>
-            Shri Ashok Kumar Senapati &amp; Smt. Sujata Senapati<br />request
+            Smt. Sujata Senapati &amp; Shri Ashok Kumar Senapati<br />request
             the pleasure of your company at the wedding of their son
           </p>
           <p class="dates">19 – 22 JANUARY 2027</p>
@@ -1241,7 +1241,7 @@
 
       <section id="count" aria-live="off">
         <h2>Counting down to the wedding</h2>
-        <p class="sub" style="color: #f0dcd0">20 January 2027 · 12:00 PM IST</p>
+        <p class="sub" style="color: #f0dcd0">20 January 2027 · 12:30 PM IST</p>
         <div class="cds" id="cds" role="timer">
           <div><b id="d">--</b><span>DAYS</span></div>
           <div><b id="h">--</b><span>HOURS</span></div>
@@ -1320,8 +1320,8 @@
     </main>
     <footer>
       <svg class="orn" aria-hidden="true"><use href="#div" /></svg
-      ><b>Siddhant &amp; Priyanka</b>With love and blessings,<br />Shri Ashok
-      Kumar Senapati, Smt. Sujata Senapati and the Senapati family
+      ><b>Siddhant &amp; Priyanka</b>With love and blessings,<br />Smt. Sujata
+      Senapati, Shri Ashok Kumar Senapati and the Senapati family
     </footer>
 
     <!-- Temporarily disabled with the gallery:
@@ -1507,20 +1507,12 @@
           v: "Hotel Pushpak, Bhubaneswar",
           l: [
             [
-              "🌼",
-              "Haldi",
-              "7:00 AM",
-              "A beautiful morning of rituals, traditions, and blessings.",
-              "20270120T070000",
-              "20270120T090000",
-            ],
-            [
               "🔥",
               "Wedding Ceremony",
-              "12:00 PM",
+              "12:30 PM Onwards",
               "The most special moment as two souls begin their forever journey.",
-              "20270120T120000",
-              "20270120T160000",
+              "20270120T123000",
+              "20270120T163000",
             ],
             [
               "🌸",
@@ -1541,7 +1533,7 @@
             [
               "✨",
               "Reception",
-              "7:30 PM",
+              "7:30 PM Onwards",
               "Join us for an evening of celebration, happiness, and togetherness.",
               "20270122T193000",
               "20270122T230000",
@@ -1595,14 +1587,14 @@
         {
           n: "Pristine Paradise",
           k: "Reception Venue",
-          w: "Reception only · 22 January 2027, 7:30 PM",
+          w: "Reception only · 22 January 2027, 7:30 PM Onwards",
           a: "Madhusudan Nagar, Near Deer Park, Kataka, Odisha – 753008",
           u: "https://www.google.com/maps/place/Pristine+Paradise/@20.4862032,85.8582405,17z/data=!3m1!4b1!4m6!3m5!1s0x3a1913e3807abca7:0xe2186d37ad3ecd66!8m2!3d20.4861982!4d85.8608154!16s%2Fg%2F11pz7r2bbj",
         },
       ];
       $("#venues").innerHTML = VN.map(
         (v, i) =>
-          `<article class="v rv"><svg viewBox="0 0 400 150" aria-hidden="true" fill="currentColor" opacity=".55"><path d="M0 150V110h50V80q8-24 16 0v30h40V60q14-34 28 0v50h40V90h24V40q20-50 40 0v50h24v20h40V60q14-34 28 0v50h40V80q8-24 16 0v30h50v40z"/></svg><div><span class="bd${i ? " r" : ""}">${v.k}</span><h3>${v.n}</h3><span class="w">${v.w}</span><p>${v.a}</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="${v.u}">Get Directions</a><button class="btn o" data-i="${i}">Copy address</button></div></div></article>`,
+          `<article class="v rv"><svg viewBox="0 0 400 150" aria-hidden="true" fill="currentColor" opacity=".55"><path d="M0 150V110h50V80q8-24 16 0v30h40V60q14-34 28 0v50h40V90h24V40q20-50 40 0v50h24v20h40V60q14-34 28 0v50h40V80q8-24 16 0v30h50v40z"/></svg><div><span class="bd${i ? " r" : ""}">${v.k}</span><h3>${v.n}</h3><span class="w">${v.w}</span><p>${v.a}</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="${v.u}">Get Directions</a></div></div></article>`,
       ).join("");
       $("#venues").onclick = (e) => {
         const b = e.target.closest("button[data-i]");
@@ -1631,7 +1623,7 @@
       };
 
       /* countdown */
-      const T = new Date("2027-01-20T12:00:00+05:30").getTime(),
+      const T = new Date("2027-01-20T12:30:00+05:30").getTime(),
         prev = {};
       function tick() {
         const ms = T - Date.now();
@@ -1836,7 +1828,8 @@
               return;
             } else if (CONFIG.musicUrl) {
               aud =
-                aud || Object.assign(new Audio(CONFIG.musicUrl), { loop: true });
+                aud ||
+                Object.assign(new Audio(CONFIG.musicUrl), { loop: true });
               aud.volume = +$("#vol").value;
               await aud.play();
             } else {
