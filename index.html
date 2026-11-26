@@ -760,6 +760,12 @@
         background: linear-gradient(var(--blush), var(--bg2));
         color: var(--mar);
       }
+      .v img {
+        width: 100%;
+        height: 220px;
+        display: block;
+        object-fit: cover;
+      }
       .v div {
         padding: 24px;
         display: flex;
@@ -1583,6 +1589,7 @@
           w: "Mehendi, Haldi, Sangeet, Wedding Ceremony & Bidai · 19–20 January 2027",
           a: "Kalpana Square, Bhubaneswar, Odisha",
           u: "https://www.google.com/maps/place/Hotel+Pushpak/@20.2589952,85.8389118,17z/data=!3m1!4b1!4m9!3m8!1s0x3a19a749cc63d47d:0xc19c048f04feaf0c!5m2!4m1!1i2!8m2!3d20.2589902!4d85.8414867!16s%2Fg%2F1tdmt0_t",
+          image: "resources/hotel-pushpak.jpg",
         },
         {
           n: "Pristine Paradise",
@@ -1590,11 +1597,12 @@
           w: "Reception only · 22 January 2027, 7:30 PM Onwards",
           a: "Madhusudan Nagar, Near Deer Park, Kataka, Odisha – 753008",
           u: "https://www.google.com/maps/place/Pristine+Paradise/@20.4862032,85.8582405,17z/data=!3m1!4b1!4m6!3m5!1s0x3a1913e3807abca7:0xe2186d37ad3ecd66!8m2!3d20.4861982!4d85.8608154!16s%2Fg%2F11pz7r2bbj",
+          image: "resources/pristine-paradise.png",
         },
       ];
       $("#venues").innerHTML = VN.map(
         (v, i) =>
-          `<article class="v rv"><svg viewBox="0 0 400 150" aria-hidden="true" fill="currentColor" opacity=".55"><path d="M0 150V110h50V80q8-24 16 0v30h40V60q14-34 28 0v50h40V90h24V40q20-50 40 0v50h24v20h40V60q14-34 28 0v50h40V80q8-24 16 0v30h50v40z"/></svg><div><span class="bd${i ? " r" : ""}">${v.k}</span><h3>${v.n}</h3><span class="w">${v.w}</span><p>${v.a}</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="${v.u}">Get Directions</a></div></div></article>`,
+          `<article class="v rv">${v.image ? `<img src="${v.image}" alt="${v.n} venue">` : '<svg viewBox="0 0 400 150" aria-hidden="true" fill="currentColor" opacity=".55"><path d="M0 150V110h50V80q8-24 16 0v30h40V60q14-34 28 0v50h40V90h24V40q20-50 40 0v50h24v20h40V60q14-34 28 0v50h40V80q8-24 16 0v30h50v40z"/></svg>'}<div><span class="bd${i ? " r" : ""}">${v.k}</span><h3>${v.n}</h3><span class="w">${v.w}</span><p>${v.a}</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="${v.u}">Get Directions</a></div></div></article>`,
       ).join("");
       $("#venues").onclick = (e) => {
         const b = e.target.closest("button[data-i]");
